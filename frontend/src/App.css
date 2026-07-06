@@ -1,0 +1,318 @@
+/* src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Padauk:wght@400;700&display=swap');
+
+:root {
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --background: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --border: #e2e8f0;
+  
+  /* Category Colors */
+  --food: #f59e0b;
+  --travel: #3b82f6;
+  --bills: #6366f1;
+  --shopping: #ec4899;
+  --others: #8b5cf6;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Padauk', sans-serif;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-main);
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px; /* ဖုန်း Screen ပုံစံ ကွက်တိဖြစ်အောင် ညှိထားပါတယ် */
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+/* 👤 User Header Component */
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--card-bg);
+  padding: 12px 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+}
+
+.user-header span {
+  font-size: 0.9rem;
+  color: var(--text-main);
+}
+
+.btn-logout {
+  background: #fee2e2;
+  color: var(--danger);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background: #fca5a5;
+}
+
+/* 标题 */
+h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  color: var(--primary);
+}
+
+/* 📅 Filter Card */
+.month-filter-card {
+  background: var(--card-bg);
+  padding: 16px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.month-filter-card label {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.month-filter-card input[type="month"] {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+  border-radius: 10px;
+  outline: none;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* 💰 Total Card (Dashboard Premium Look) */
+.total-card {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 24px;
+  text-align: center;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 15px -3px rgba(124, 58, 237, 0.3);
+}
+
+.total-card h3 {
+  font-size: 0.9rem;
+  font-weight: 400;
+  opacity: 0.85;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.total-amount {
+  font-size: 2.2rem;
+  font-weight: 700;
+}
+
+/* 📝 Generic Card Styles */
+.form-card, .table-card {
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+}
+
+h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--text-main);
+  border-left: 4px solid var(--primary);
+  padding-left: 8px;
+}
+
+/* 🎛 Form Inputs */
+.form-group {
+  margin-bottom: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.form-group input, .form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  outline: none;
+  background-color: #f8fafc;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--primary);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.btn-submit {
+  width: 100%;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 10px;
+}
+
+.btn-submit:hover {
+  background: var(--primary-hover);
+}
+
+/* 🔑 Authentication Screen (Login Page) */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card {
+  background: var(--card-bg);
+  padding: 32px 24px;
+  border-radius: 24px;
+  width: 100%;
+  border: 1px solid var(--border);
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+.auth-card button {
+  transition: all 0.2s !important;
+}
+
+.auth-card button:hover {
+  background-color: #f8fafc !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.08) !important;
+}
+
+/* 📊 Expense List Design */
+.expense-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.expense-table th {
+  display: none; /* ဖုန်းမျက်နှာပြင်မှာ ရှင်းလင်းအောင် Table Header ကို ဖျောက်ထားပါတယ် */
+}
+
+.expense-table tr {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+}
+
+.expense-table tr:last-child {
+  border-bottom: none;
+}
+
+.expense-table td:nth-child(1) {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}
+
+/* အမျိုးအစား Badge လေးများ */
+.badge {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-left: 6px;
+  display: inline-block;
+}
+.badge.food { background: #fef3c7; color: var(--food); }
+.badge.travel { background: #dbeafe; color: var(--travel); }
+.badge.bills { background: #e0e7ff; color: var(--bills); }
+.badge.shopping { background: #fce7f3; color: var(--shopping); }
+.badge.others { background: #f3e8ff; color: var(--others); }
+
+/* ရက်စွဲ */
+.expense-table td:nth-child(3) {
+  grid-column: 1;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ပမာဏ */
+.amount-text {
+  grid-column: 2;
+  grid-row: 1;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #1e293b;
+  text-align: right;
+}
+
+/* ဖျက်ရန် ခလုတ် */
+.expense-table td:nth-child(5) {
+  grid-column: 2;
+  grid-row: 2;
+  text-align: right;
+  margin-top: 4px;
+}
+
+.btn-delete {
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.btn-delete:hover {
+  color: var(--danger);
+  background: #fee2e2;
+}
