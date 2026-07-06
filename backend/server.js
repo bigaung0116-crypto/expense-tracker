@@ -116,3 +116,6 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Backend Server Is Running On: http://localhost:${PORT}`);
 });
+app.get("/test", (req, res) => {
+    res.send("Backend Server အလုပ်လုပ်နေပါပြီ ကိုအောင်ရေ!");
+});
