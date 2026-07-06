@@ -6,7 +6,7 @@ require("dotenv").config();
 
 const app = express();
 
-// 🌐 Frontend (Port 5173) နှင့် ချောမွေ့စွာ ဒေတာချိတ်ဆက်နိုင်ရန် CORS ခွင့်ပြုခြင်း
+// 🌐 Frontend နှင့် ချောမွေ့စွာ ဒေတာချိတ်ဆက်နိုင်ရန် CORS ခွင့်ပြုခြင်း
 app.use(cors({
     origin: process.env.FRONTEND_URL || "http://localhost:5173",
     credentials: true
@@ -14,15 +14,13 @@ app.use(cors({
 
 app.use(express.json()); // JSON data များ လက်ခံနိုင်ရန် Middleware
 
-// 🗄️ MySQL Database Connection တည်ဆောက်ခြင်း
-// (ဒေတာတွေကို ကိုအောင့်ရဲ့ .env ဖိုင်ထဲကအတိုင်း ဖတ်သွားပါလိမ့်မယ်)
-// 📱 MySQL Database Connection Pool တည်ဆောက်ခြင်း
+// 🗄️ MySQL Database Connection Pool တည်ဆောက်ခြင်း
 const db = mysql.createPool({
     host: process.env.DB_HOST || "localhost",
     user: process.env.DB_USER || "root",
-    password: process.env.DB_PASSWORD, // ကိုအောင့်ရဲ့ .env ဖိုင်ထဲက အတိုင်းဖတ်ပါမယ်
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME || "expense_tracker",
-    port: process.env.DB_PORT || 3306, // Cloud Port 20699 ကိုပါ ဖတ်နိုင်အောင်ပါ
+    port: process.env.DB_PORT || 3306,
     ssl: {
         rejectUnauthorized: false
     },
@@ -38,14 +36,11 @@ db.getConnection((err, connection) => {
         return;
     }
     console.log("✅ MySQL Database နှင့် အောင်မြင်စွာ ချိတ်ဆက်ပြီးပါပြီ။");
-    connection.release(); // စမ်းသပ်ပြီးရင် connection ကို ပြန်လွှတ်ပေးပါမယ်
+    connection.release();
 });
 
 // ==========================================
 // 📥 ၁။ အသုံးစရိတ်အသစ် သိမ်းဆည်းရန် API (POST)
-// ==========================================
-// ==========================================
-// 📥 ၁။ အသုံးစရိတ်အသစ် သိမ်းဆည်းရန် API (POST) - ပြင်ပြီး
 // ==========================================
 app.post("/api/expenses", (reactReq, res) => {
     const { uid, title, amount, category, date } = reactReq.body;
@@ -54,7 +49,6 @@ app.post("/api/expenses", (reactReq, res) => {
         return res.status(400).json({ error: "လိုအပ်သော အချက်အလက်များ ပြည့်စုံစွာ ဖြည့်ပေးပါ။" });
     }
 
-    // 🏆 ကိုအောင့်ရဲ့ Database Column နာမည်အမှန်များဖြစ်တဲ့ expense_date နဲ့ user_id သို့ ပြောင်းလဲထားပါသည်
     const query = "INSERT INTO expenses (title, amount, category, expense_date, user_id) VALUES (?, ?, ?, ?, ?)";
     
     db.query(query, [title, amount, category, date, uid], (err, result) => {
@@ -67,17 +61,16 @@ app.post("/api/expenses", (reactReq, res) => {
 });
 
 // ==========================================
-// 📤 ၂။ User တစ်ဦးချင်းစီ၏ လအလိုက် အသုံးစရိတ် ဆွဲထုတ်ရန် API (GET) - ပြင်ပြီး
+// 📤 ၂။ User တစ်ဦးချင်းစီ၏ လအလိုက် အသုံးစရိတ် ဆွဲထုတ်ရန် API (GET)
 // ==========================================
 app.get("/api/expenses/:uid", (reactReq, res) => {
     const { uid } = reactReq.params;
-    const { month } = reactReq.query; // ဥပမာ - 2026-07
+    const { month } = reactReq.query;
 
     if (!uid) {
         return res.status(400).json({ error: "User ID (UID) လိုအပ်ပါသည်။" });
     }
 
-    // 🏆 ဒီမှာလည်း user_id နဲ့ expense_date ဆိုပြီး Database အတိုင်း ကွက်တိ ပြောင်းပေးထားပါတယ်
     let query = "SELECT * FROM expenses WHERE user_id = ? ORDER BY expense_date DESC";
     let queryParams = [uid];
 
@@ -94,6 +87,7 @@ app.get("/api/expenses/:uid", (reactReq, res) => {
         res.json(results);
     });
 });
+
 // ==========================================
 // ❌ ၃။ အသုံးစရိတ် မှတ်တမ်း ဖျက်ရန် API (DELETE)
 // ==========================================
@@ -111,11 +105,17 @@ app.delete("/api/expenses/:id", (req, res) => {
     });
 });
 
-// 🚀 Server စတင်မောင်းနှင်မည့် Port (Port 5000)
+// ==========================================
+// 🧪 ၄။ Server အလုပ်လုပ်၊ မလုပ် စမ်းသပ်ရန် API (GET Test)
+// ==========================================
+app.get("/test", (req, res) => {
+    res.send("Backend Server အလုပ်လုပ်နေပါပြီ ကိုအောင်ရေ!");
+});
+
+// ==========================================
+// 🚀 ၅။ Server စတင်မောင်းနှင်မည့် Port (အမြဲတမ်း အောက်ဆုံးမှာ ရှိရပါမည်)
+// ==========================================
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`🚀 Backend Server Is Running On: http://localhost:${PORT}`);
-});
-app.get("/test", (req, res) => {
-    res.send("Backend Server အလုပ်လုပ်နေပါပြီ ကိုအောင်ရေ!");
 });
