@@ -1,4 +1,3 @@
-// server.js
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
@@ -6,9 +5,12 @@ require("dotenv").config();
 
 const app = express();
 
-// 🌐 Frontend နှင့် ချောမွေ့စွာ ဒေတာချိတ်ဆက်နိုင်ရန် CORS ခွင့်ပြုခြင်း
+// 🌐 Frontend နှင့် ချောမွေ့စွာ ဒေတာချိတ်ဆက်နိုင်ရန် CORS ခွင့်ပြုခြင်း (လင့်ခ်အမှန် ထည့်ထားပေးပါတယ်)
 app.use(cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
+    origin: [
+        "https://expense-tracker-frontend-mgtp.onrender.com",
+        "http://localhost:5173"
+    ],
     credentials: true
 }));
 
