@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { onAuthStateChanged } from "firebase/auth";
@@ -29,7 +28,8 @@ function App() {
   // 🔥 ငွေကြေးအမျိုးအစား ရွေးချယ်ရန် State (Default အနေနဲ့ MYR ထားပေးပါတယ် ကိုအောင်)
   const [currency, setCurrency] = useState("MYR");
 
-  const API_URL = "https://expense-tracker-backend-bfe9.onrender.com/api/expenses";
+  // ✅ Backend URL ကို Domain သက်သက်ပဲ ထားလိုက်ပါပြီ
+  const API_URL = "https://expense-tracker-backend-bfe9.onrender.com";
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -43,9 +43,10 @@ function App() {
     return () => unsubscribe();
   }, [selectedMonth]);
 
+  // ✅ GET Route လမ်းကြောင်းကို အမှန်ပြင်ထားပါတယ်
   const fetchExpenses = async (uid, month) => {
     try {
-      const res = await axios.get(`${API_URL}/${uid}?month=${month}`);
+      const res = await axios.get(`${API_URL}/api/expenses/${uid}?month=${month}`);
       setExpenses(res.data);
     } catch (err) {
       console.error("Fetch data error:", err);
@@ -85,12 +86,13 @@ function App() {
     }
   };
 
+  // ✅ POST Route လမ်းကြောင်းကို အမှန်ပြင်ထားပါတယ်
   const handleAddExpense = async (e) => {
     e.preventDefault();
     if (!title || !amount) return;
     try {
       // 🔥 ဒေတာလှမ်းပို့တဲ့အခါ ကိုယ်ရွေးလိုက်တဲ့ ငွေကြေးအမျိုးအစား (ဥပမာ MYR, SGD) ပါ ပို့ပေးပါတယ်
-      await axios.post(API_URL, {
+      await axios.post(`${API_URL}/api/expenses`, {
         uid: user.uid,
         title: `${title} (${currency})`, // နာမည်ဘေးမှာ ပြပေးဖို့တွဲလိုက်ပါတယ်
         amount: parseFloat(amount),
@@ -105,16 +107,17 @@ function App() {
     }
   };
 
+  // ✅ DELETE Route လမ်းကြောင်းကို အမှန်ပြင်ထားပါတယ်
   const handleDeleteExpense = async (id) => {
     try {
-      await axios.delete(`${API_URL}/${id}`);
+      await axios.delete(`${API_URL}/api/expenses/${id}`);
       fetchExpenses(user.uid, selectedMonth);
     } catch (err) {
       console.error("Delete failed:", err);
     }
   };
 
-  const totalAmount = expenses.reduce((sum, item) => sum +(Number(item.amount)), 0);
+  const totalAmount = expenses.reduce((sum, item) => sum + (Number(item.amount)), 0);
 
   if (!user) {
     return (
@@ -122,7 +125,7 @@ function App() {
         <div className="auth-card">
           <h1>SpendSmart</h1>
           <p style={{ textAlign: "center", color: "#64748b", marginBottom: "20px", fontSize: "0.9rem" }}>
-            {isRegisterMode ? "ကျေးဇူးပြု၍ အောက်ပါအချက်အလက်များ ဖြည့်ပေးပါ" : "နိုင်ငံစုံက သူငယ်ချင်းများအတွက် အသုံးစရိတ်မှတ်တမ်း"}
+            {isRegisterMode ? "ကျေးဇူးပြု၍ အောက်ပါအချက်အလက်များ ဖြည့်ပေးပါ" : "နိုင်ငံစုံက သူγένချင်းများအတွက် အသုံးစရိတ်မှတ်တမ်း"}
           </p>
 
           {authError && <div style={{ color: "#ef4444", background: "#fee2e2", padding: "10px", borderRadius: "8px", fontSize: "0.85rem", marginBottom: "15px", textAlign: "center" }}>{authError}</div>}
