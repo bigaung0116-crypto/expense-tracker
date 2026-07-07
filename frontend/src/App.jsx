@@ -29,7 +29,7 @@ function App() {
   // 🔥 ငွေကြေးအမျိုးအစား ရွေးချယ်ရန် State (Default အနေနဲ့ MYR ထားပေးပါတယ် ကိုအောင်)
   const [currency, setCurrency] = useState("MYR");
 
-  const API_URL = "http://localhost:5000/api/expenses";
+  const API_URL = "https://expense-tracker-backend-bfe9.onrender.com/api/expenses";
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
