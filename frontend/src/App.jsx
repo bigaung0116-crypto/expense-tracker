@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { onAuthStateChanged } from "firebase/auth";
+import { 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword 
+} from "firebase/auth";
 import { 
   auth, 
-  signInWithGoogle, 
-  registerWithEmail, 
-  loginWithEmail, 
-  logoutUser 
+  provider, 
+  signInWithPopup, 
+  signOut 
 } from "./firebase";
 import "./App.css";
 
@@ -15,7 +18,7 @@ function App() {
   const [isRegisterMode, setIsRegisterMode] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState(""); // 🌟 Confirm Password State
+  const [confirmPassword, setConfirmPassword] = useState(""); 
   const [authError, setAuthError] = useState("");
 
   // Expense tracker State များ
@@ -54,15 +57,17 @@ function App() {
     }
   };
 
+  // Google Login ပြင်ဆင်ပြီး
   const handleGoogleLogin = async () => {
     try {
       setAuthError("");
-      await signInWithGoogle();
+      await signInWithPopup(auth, provider);
     } catch (err) {
       setAuthError(err.message);
     }
   };
 
+  // Email/Password Login & Register ပြင်ဆင်ပြီး
   const handleEmailAuth = async (e) => {
     e.preventDefault();
     setAuthError("");
@@ -71,7 +76,6 @@ function App() {
       return;
     }
 
-    // ⚠️ Register လုပ်ချိန်တွင် Password နှစ်ခု တူ/မတူ စစ်ဆေးခြင်း
     if (isRegisterMode && password !== confirmPassword) {
       setAuthError("Password များ တူညီမှု မရှိပါဘူး။ ပြန်လည်စစ်ဆေးပေးပါ။");
       return;
@@ -79,10 +83,10 @@ function App() {
 
     try {
       if (isRegisterMode) {
-        await registerWithEmail(email, password);
+        await createUserWithEmailAndPassword(auth, email, password);
         alert("အကောင့်သစ် အောင်မြင်စွာ ဆောက်ပြီးပါပြီ။");
       } else {
-        await loginWithEmail(email, password);
+        await signInWithEmailAndPassword(auth, email, password);
       }
       setEmail("");
       setPassword("");
@@ -94,6 +98,9 @@ function App() {
       else setAuthError(err.message);
     }
   };
+
+  // Sign Out Function ပြင်ဆင်ပြီး
+  const handleLogout = () => signOut(auth);
 
   // POST Route
   const handleAddExpense = async (e) => {
@@ -149,7 +156,6 @@ function App() {
               <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
 
-            {/* 🌟 Register Mode ဖြစ်နေလျှင် Confirm Password အကွက်ကို စနစ်တကျ ပြသခြင်း */}
             {isRegisterMode && (
               <div className="form-group">
                 <label>လျှို့ဝှက်နံပါတ်ကို ထပ်မံရိုက်ထည့်ပါ (Confirm Password)</label>
@@ -198,7 +204,7 @@ function App() {
           <span style={{ color: "#64748b", display: "block", fontSize: "0.8rem" }}>Welcome back 👋</span>
           <span style={{ fontWeight: "600" }}>{user.displayName || user.email}</span>
         </div>
-        <button className="btn-logout" onClick={logoutUser}>ထွက်မည်</button>
+        <button className="btn-logout" onClick={handleLogout}>ထွက်မည်</button>
       </div>
 
       <h1 style={{ textTransform: "uppercase", letterSpacing: "1px" }}>SpendSmart 📊</h1>
