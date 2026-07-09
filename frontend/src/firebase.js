@@ -1,21 +1,22 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 
-// ကိုအောင့်ရဲ့ Firebase Configuration (မူရင်းအတိုင်း ထားရှိပါတယ်)
+// Firebase Configuration (ဒေတာအစစ်အမှန်များ ထည့်သွင်းပြီး)
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID
+  apiKey: "AIzaSyB3Yo56BVfUyioiUjkPkHSG-abWjR4EO30",
+  authDomain: "expense-tracker-a0aa5.firebaseapp.com",
+  projectId: "expense-tracker-a0aa5",
+  storageBucket: "expense-tracker-a0aa5.firebasestorage.app",
+  messagingSenderId: "68710527698",
+  appId: "1:68710527698:web:7b262015d7b662a49b730b",
+  measurementId: "G-6DFHED7P2P"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Google Auth Provider သတ်မှတ်ခြင်း (စစ်ဆေးခလုတ် အပိုတွေ ဖြုတ်ထားပါတယ်)
+// Google Auth Provider
 const provider = new GoogleAuthProvider();
 
 export { auth, provider, signInWithPopup, signOut };
