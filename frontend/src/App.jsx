@@ -66,9 +66,14 @@ function App() {
     return (
       <div style={{ padding: "20px", textAlign: "center" }}>
         <h2>SpendSmart Dashboard 📊</h2>
-        {/* 🌟 "ကိုအောင်" နေရာမှာ တကယ့်အကောင့်ပိုင်ရှင်ရဲ့ နာမည် သို့မဟုတ် Email အလိုအလျောက် ပေါ်မည့်စနစ် ပြောင်းလဲထားပါတယ် */}
         <p>Welcome back, <strong>{user.displayName || user.email}</strong>!</p>
-        <button onClick={handleLogout} style={{ padding: "10px 20px", cursor: "pointer", marginTop: "10px" }}>
+        
+        {/* 🛠️ NOTE: ကိုအောင့်ရဲ့ မူရင်း Expense Component သို့မဟုတ် Tracker Layout ကုဒ်ဟောင်းများကို ဒီအောက်မှာ ထည့်သွင်းပေးပါရန် */}
+        <div style={{ margin: "20px auto", maxWidth: "600px", padding: "20px", border: "1px dashed #ccc", borderRadius: "8px" }}>
+          <p style={{ color: "#666" }}>[ အသုံးစရိတ်ဇယားနှင့် စာရင်းသွင်းစနစ် ကုဒ်များကို ဤနေရာတွင် ပြန်လည်ထည့်သွင်းနိုင်ပါသည် ]</p>
+        </div>
+
+        <button onClick={handleLogout} style={{ padding: "10px 20px", cursor: "pointer", marginTop: "10px", background: "#EF4444", color: "white", border: "none", borderRadius: "5px" }}>
           Log Out
         </button>
       </div>
@@ -77,18 +82,18 @@ function App() {
 
   // User Login မဝင်ရသေးရင် ပြသမည့် UI (Auth Form)
   return (
-    <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", textAlign: "center", border: "1px solid #ccc", borderRadius: "10px" }}>
+    <div style={{ maxWidth: "400px", margin: "50px auto", padding: "20px", textAlign: "center", border: "1px solid #ccc", borderRadius: "10px", boxShadow: "0 4px 6px rgba(0,0,0,0.05)" }}>
       <h2>SpendSmart</h2>
-      <p>နိုင်ငံစုံက သူငယ်ချင်းများအတွက် အသုံးစရိတ်မှတ်တမ်း App</p>
+      <p style={{ color: "#666", fontSize: "14px" }}>နိုင်ငံစုံက သူငယ်ချင်းများအတွက် အသုံးစရိတ်မှတ်တမ်း App</p>
 
-      <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+      <form onSubmit={handleAuthSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
         <input 
           type="email" 
           placeholder="အီးမေးလ် (Email)" 
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
           required 
-          style={{ padding: "10px" }}
+          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
         />
         <input 
           type="password" 
@@ -96,7 +101,7 @@ function App() {
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
           required 
-          style={{ padding: "10px" }}
+          style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
         />
 
         {isRegistering && (
@@ -106,16 +111,16 @@ function App() {
             value={confirmPassword} 
             onChange={(e) => setConfirmPassword(e.target.value)} 
             required 
-            style={{ padding: "10px" }}
+            style={{ padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
           />
         )}
 
-        <button type="submit" style={{ padding: "10px", background: "#4F46E5", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+        <button type="submit" style={{ padding: "10px", background: "#4F46E5", color: "white", border: "none", borderRadius: "5px", cursor: "pointer", fontWeight: "bold" }}>
           {isRegistering ? "အကောင့်သစ်ဆောက်မည်" : "အကောင့်ဝင်မည်"}
         </button>
       </form>
 
-      <div style={{ margin: "20px 0" }}>သို့မဟုတ်</div>
+      <div style={{ margin: "20px 0", color: "#aaa" }}>သို့မဟုတ်</div>
 
       <button onClick={handleGoogleLogin} style={{ width: "100%", padding: "10px", background: "white", border: "1px solid #ccc", borderRadius: "5px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px" }}>
         <img src="https://www.google.com/favicon.ico" alt="Google" style={{ width: "16px" }} />
